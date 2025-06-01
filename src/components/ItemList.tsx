@@ -4,13 +4,19 @@ import ItemRow from "./ItemRow";
 interface ItemListProps {
   items: Item[];
   onToggle: (id: number) => void;
+  onDelete: (id: number) => void;
 }
 
-export default function ItemList({ items, onToggle }: ItemListProps) {
+export default function ItemList({ items, onToggle, onDelete }: ItemListProps) {
   return (
-    <ul className="space-y-2">
+    <ul>
       {items.map((item) => (
-        <ItemRow key={item.id} item={item} onToggle={onToggle} />
+        <ItemRow
+          key={item.id}
+          item={item}
+          onToggle={onToggle}
+          onDelete={onDelete}
+        />
       ))}
     </ul>
   );
