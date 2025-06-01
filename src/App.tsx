@@ -1,5 +1,6 @@
 import "./App.css";
 import ItemForm from "./components/ItemForm";
+import ItemList from "./components/ItemList";
 import type { Item } from "./types";
 import { useState } from "react";
 
@@ -15,11 +16,25 @@ function App() {
     setItems([newItem, ...items]);
   }
 
+  function toggleStatus(id: number) {
+    setItems((prev) =>
+      prev.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              status: item.status === "finns" ? "behövs" : "finns",
+            }
+          : item
+      )
+    );
+  }
+
   return (
-    <>
-      <h1>Ladan</h1>
+    <div className="max-w-md mx-auto p-4">
+      <h1 className="text-2xl mb-4">Ladan</h1>
       <ItemForm onAdd={addItem} />
-    </>
+      <ItemList items={items} onToggle={toggleStatus} />
+    </div>
   );
 }
 
