@@ -5,7 +5,6 @@ import type { Item } from "./types";
 import { useState } from "react";
 import { supabase } from "./supabase";
 import { useEffect } from "react";
-import { data } from "autoprefixer";
 
 function App() {
   const [items, setItems] = useState<Item[]>([]);
@@ -66,8 +65,8 @@ function App() {
   return (
     <div className="max-w-md mx-auto p-4">
       <h1 className="text-2xl mb-4">Ladan</h1>
-      <ItemForm onAdd={addItem} />
       <ItemList items={items} onToggle={toggleStatus} onDelete={deleteItem} />
+      <ItemForm onAdd={addItem} />
     </div>
   );
 }
