@@ -19,7 +19,7 @@ export default function ItemRow({ item, onToggle, onDelete }: ItemRowProps) {
               : "bg-red-500 text-white"
           }`}
         >
-          {item.status === "finns" ? "✅ Finns" : "❌ Behövs"}
+          {item.status === "finns" ? "Finns" : "Behövs"}
         </button>
         <button
           onClick={() => onDelete(item.id)}
