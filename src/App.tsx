@@ -64,9 +64,11 @@ function App() {
 
   return (
     <div className="max-w-md mx-auto p-4">
-      <h1 className="text-6xl mb-4">Ladan</h1>
-      <ItemList items={items} onToggle={toggleStatus} onDelete={deleteItem} />
-      <ItemForm onAdd={addItem} />
+      <h1 className="text-7xl mb-10">Ladan</h1>
+      <div className="flex flex-col gap-8">
+        <ItemList items={items} onToggle={toggleStatus} onDelete={deleteItem} />
+        <ItemForm onAdd={addItem} />
+      </div>
     </div>
   );
 }
