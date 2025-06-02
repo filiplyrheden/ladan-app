@@ -10,22 +10,24 @@ export default function ItemRow({ item, onToggle, onDelete }: ItemRowProps) {
   return (
     <li className="flex items-center justify-between border rounded px-3 py-2">
       <span>{item.name}</span>
-      <div className="flex items-center gap-2">
-        <button
-          onClick={() => onToggle(item.id)}
-          className={`px-2 py-1 rounded text-sm ${
-            item.status === "finns"
-              ? "bg-green-500 text-white"
-              : "bg-red-500 text-white"
-          }`}
-        >
-          {item.status === "finns" ? "Finns" : "Behövs"}
-        </button>
+      <div className="flex items-center gap-10">
+        <label className="inline-flex items-center cursor-pointer">
+          <input
+            type="checkbox"
+            className="sr-only peer"
+            checked={item.status === "finns"}
+            onChange={() => onToggle(item.id)}
+          />
+          <div className="relative w-11 h-6 bg-red-500 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-red-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-500 dark:peer-checked:bg-green-500"></div>
+          <span className="ms-3 text-base font-medium">
+            {item.status === "finns" ? "Finns" : "Behövs"}
+          </span>
+        </label>
         <button
           onClick={() => onDelete(item.id)}
-          className="text-sm px-2 py-1 bg-gray-300 hover:bg-gray-400 rounded"
+          className="text-xs px-2 py-1 bg-gray-300 hover:bg-gray-400 rounded"
         >
-          🗑️
+          ❌
         </button>
       </div>
     </li>

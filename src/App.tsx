@@ -64,7 +64,7 @@ function App() {
 
   return (
     <div className="max-w-md mx-auto p-4">
-      <h1 className="text-2xl mb-4">Ladan</h1>
+      <h1 className="text-6xl mb-4">Ladan</h1>
       <ItemList items={items} onToggle={toggleStatus} onDelete={deleteItem} />
       <ItemForm onAdd={addItem} />
     </div>
