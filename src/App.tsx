@@ -1,6 +1,7 @@
 import "./App.css";
 import ItemForm from "./components/ItemForm";
 import ItemList from "./components/ItemList";
+import TextInput from "./components/TextInput";
 import type { Item } from "./types";
 import { useState } from "react";
 import { supabase } from "./supabase";
@@ -69,6 +70,7 @@ function App() {
         <ItemList items={items} onToggle={toggleStatus} onDelete={deleteItem} />
         <ItemForm onAdd={addItem} />
       </div>
+      <TextInput />
     </div>
   );
 }
