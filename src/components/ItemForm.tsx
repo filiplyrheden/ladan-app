@@ -18,7 +18,7 @@ export default function ItemForm({ onAdd }: ItemProps) {
     <form onSubmit={handleSubmit} className="flex gap-2 mb-4">
       <input
         className="flex-grow border px-2 py-1 rounded"
-        placeholder="Lägg till sak..."
+        placeholder="Lägg till..."
         value={input}
         onChange={(e) => setInput(e.target.value)}
       />
