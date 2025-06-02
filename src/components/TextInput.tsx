@@ -1,12 +1,20 @@
-export default function TextInput() {
+interface TextInputProps {
+  note: string;
+  onNoteChange: (newNote: string) => void;
+}
+
+export default function TextInput({ note, onNoteChange }: TextInputProps) {
   return (
     <div className="mt-10">
-      <h2>Anteckningar</h2>
+      <label htmlFor="note" className="block text-lg font-medium mb-2">
+        Anteckningar
+      </label>
       <textarea
-        name="freetext"
-        id="freetext"
-        className="border border-gray-300 rounded-md p-2 w-60 h-50 resize-none"
-      ></textarea>
+        id="note"
+        value={note}
+        onChange={(e) => onNoteChange(e.target.value)}
+        className="w-full border rounded p-2 min-h-[150px] resize-none"
+      />
     </div>
   );
 }

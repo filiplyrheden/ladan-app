@@ -3,16 +3,83 @@ import ItemForm from "./components/ItemForm";
 import ItemList from "./components/ItemList";
 import TextInput from "./components/TextInput";
 import type { Item } from "./types";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { supabase } from "./supabase";
 import { useEffect } from "react";
 
 function App() {
   const [items, setItems] = useState<Item[]>([]);
+  const [note, setNote] = useState<string>("");
+  const [noteId, setNoteId] = useState<number | null>(null);
+  const saveTimeoutRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     fetchItems();
+    fetchNote();
   }, []);
+
+  async function fetchNote() {
+    const { data, error } = await supabase
+      .from("notes")
+      .select("id, note")
+      .order("id", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Fel vid hämtning av note:", error);
+      return;
+    }
+
+    if (data) {
+      setNote(data.note);
+      setNoteId(data.id);
+    } else {
+      console.log("Ingen anteckning hittades");
+
+      const { data: newData, error: insertError } = await supabase
+        .from("notes")
+        .insert([{ note: "" }])
+        .select()
+        .single();
+
+      if (newData) {
+        setNote("");
+        setNoteId(newData.id);
+      }
+
+      if (insertError) {
+        console.error("Kunde inte skapa anteckning:", insertError);
+      }
+    }
+  }
+
+  function handleNoteChange(newNote: string) {
+    setNote(newNote);
+
+    // Rensa tidigare timeout om det finns
+    if (saveTimeoutRef.current) {
+      clearTimeout(saveTimeoutRef.current);
+    }
+
+    // Sätt ny timeout för autosave
+    saveTimeoutRef.current = window.setTimeout(() => {
+      updateNote(newNote);
+    }, 1000); // 1 sekund fördröjning
+  }
+
+  async function updateNote(newNote: string) {
+    if (noteId === null) return;
+
+    const { error } = await supabase
+      .from("notes")
+      .update({ note: newNote })
+      .eq("id", noteId);
+
+    if (error) {
+      console.error("Fel vid uppdatering av note:", error);
+    }
+  }
 
   async function fetchItems() {
     const { data, error } = await supabase
@@ -70,7 +137,7 @@ function App() {
         <ItemList items={items} onToggle={toggleStatus} onDelete={deleteItem} />
         <ItemForm onAdd={addItem} />
       </div>
-      <TextInput />
+      <TextInput note={note} onNoteChange={handleNoteChange} />
     </div>
   );
 }
